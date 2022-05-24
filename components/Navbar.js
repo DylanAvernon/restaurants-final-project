@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import { Container, Nav, NavItem } from 'reactstrap';
+import { Container, Nav, NavItem, Button } from 'reactstrap';
 import Image from 'next/image';
+import {createContext, useContext} from 'react';
+import AppContext from './AppContext';
 const Navbar = () => {
+    const {user, login, logout} = useContext(AppContext);
+    console.log(user);
     return (
         <header>
             <Nav className='navbar navbar-dark bg-dark'>
@@ -11,14 +15,10 @@ const Navbar = () => {
                     </Link>
                 </NavItem>
                 <NavItem className='ml-auto'>
-                    <Link href='/register'>
-                        <a className='nav-link'>Sign up</a>
-                    </Link>
+                    <Button onClick={login}>Login/Signup</Button>
                 </NavItem>
-                <NavItem>
-                    <Link href='/login'>
-                        <a className='nav-link'>Sign in</a>
-                    </Link>
+                <NavItem className='p-1'>
+                    <Button onClick={logout}>Logout</Button>
                 </NavItem>
             </Nav>
         </header>
