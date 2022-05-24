@@ -17,6 +17,7 @@ const AppContext = React.createContext(
 export const AppContextProvider = ({children}) => {
     const [cart, setCart] = useState({items: [], total: 0});
     const [user, setUser] = useState(null);
+    const [authReady, setAuthReady] = useState(false);
     const addItem = () => console.log("added item");
     const removeItem = () => console.log("removed item");
     const login = () => {
@@ -25,21 +26,26 @@ export const AppContextProvider = ({children}) => {
     const logout = () => {
         netlifyIdentity.logout();
     }
-    const context = {user, cart, login, logout, removeItem, addItem};
+    const context = {user, cart, authReady, login, logout, removeItem, addItem};
     useEffect(() => {
         netlifyIdentity.on('login', (user) => {
             setUser(user);
             netlifyIdentity.close();
-            console.log('Login event');
         });
         netlifyIdentity.on('logout', () => {
             setUser(null);
         });
+        netlifyIdentity.on('init', (user) => {
+            setAuthReady(true);
+            setUser(user);
+            console.log('init event')
+        })
         // init netlify identity connection
         netlifyIdentity.init();
         return () => {
             netlifyIdentity.off('login');
             netlifyIdentity.off('logout');
+            netlifyIdentity.off('init');
         }
     }, [])
     return (
