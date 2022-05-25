@@ -27,7 +27,7 @@ const GET_RESTAURANT_DISHES = gql`
 `;
 const Dishes = ({restId}) => {
     const {loading, error, data} = useQuery(GET_RESTAURANT_DISHES, { variables: {id: restId}});
-    const {addItem} = useContext(AppContext);
+    const {addItem, user} = useContext(AppContext);
     const router = useRouter();
 
     if (loading) return <p>Loading...</p>;
@@ -44,7 +44,7 @@ const Dishes = ({restId}) => {
                                 <CardTitle>{dish.attributes.name}</CardTitle>
                                 <CardText>{dish.attributes.description}</CardText>
                             </CardBody>
-                            <Button color='info' outline onClick={() => addItem(dish)}>+ Add to Cart</Button>
+                            {user && <Button color='info' outline onClick={() => addItem(dish)}>+ Add to Cart</Button>}
                         </Card>
                     </Col>
                 ))}

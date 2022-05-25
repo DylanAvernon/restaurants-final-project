@@ -8,7 +8,7 @@ import {AppContextProvider} from '../components/AppContext';
 function MyApp({ Component, pageProps }) {
   const cache = new InMemoryCache();
   const client = new ApolloClient({
-    uri: 'http://localhost:1337/graphql',
+    uri: 'https://squid-app-48uac.ondigitalocean.app/graphql',
     cache: cache
   });
   
